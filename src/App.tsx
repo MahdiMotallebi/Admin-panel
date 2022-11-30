@@ -1,26 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useMode } from './theme/themeConfig';
+import { ProSidebarProvider } from 'react-pro-sidebar';
+import { Route, Routes } from 'react-router-dom';
 
-function App() {
+//Mui
+import { Stack, Box } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+
+//style
+import './styles/global.scss';
+
+//components
+import SidebarLeft from './pages/global/SidebarLeft';
+import Layout from './components/layout';
+import CRM from './pages/dashboard/CRM';
+
+const App: React.FC = () => {
+  const { theme } = useMode();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ProSidebarProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Box display="flex">
+          <SidebarLeft />
+          <Box width="100%" component="main">
+            <Routes>
+              <Route path="/" element={<CRM />} />
+            </Routes>
+          </Box>
+        </Box>
+      </ThemeProvider>
+    </ProSidebarProvider>
   );
-}
+};
 
 export default App;
